@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender{
+  Male
+  Female
+}
+
+enum Tipe{
+  UTS
+  UAS
+}
+
+enum Semester{
+  Ganjil
+  Genap
+}
+
+model Student {
+  id        String        @id 
+  name      String
+  class     String
+  gender    Gender 
+  address   String
+  raports   Raport[]
+}
+
+model Raport {
+  id            String      @id 
+  tipe          Tipe
+  semester      Semester
+  matematika        Int     @default(0)
+  bahasa_indonesia  Int     @default(0)
+  bahasa_inggris    Int     @default(0)
+  ipa               Int     @default(0)
+  ips               Int     @default(0)
+  agama             Int     @default(0)
+  ipk               Float   @default(0)
+  studentId     String
+  student       Student     @relation(fields: [studentId], references: [id])
+}
